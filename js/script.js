@@ -74,7 +74,29 @@ const nextBtn = document.getElementById("nextBtn");
     fullscreenBtn.addEventListener("click", toggleFullscreen);
   }
 });
+// 1. Nastavení konstant
+const POPUP_KEY = 'lastAlertTime';
+// 24 hodin v milisekundách: 24 (hodin) * 60 (minut) * 60 (sekund) * 1000 (milisekund)
+const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
+// 2. Hlavní logika při načtení stránky
+window.onload = function () {
+  const lastSeenTime = localStorage.getItem(POPUP_KEY); // Získání uloženého času
+  const currentTime = Date.now();                      // Aktuální čas
+
+  // A) Pokud čas NENÍ uložen, jedná se o prvního návštěvníka.
+  // NEBO
+  // B) Pokud od posledního zobrazení uplynulo více než 24 hodin.
+  if (lastSeenTime === null || (currentTime - lastSeenTime) > TWENTY_FOUR_HOURS) {
+
+    // 3. Spustit upozornění (alert)
+    alert("Dovolujeme si vás informovat že provoz bude od 8.12. do 27.12. pozastaven z důvodu dovolené. Přejeme pohodové svátky!");
+
+    // 4. Uložit aktuální čas do úložiště
+    // Tím resetujeme časovač pro další zobrazení.
+    localStorage.setItem(POPUP_KEY, currentTime);
+  }
+}
 
 
 
